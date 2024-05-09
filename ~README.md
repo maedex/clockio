@@ -2,6 +2,12 @@
 Snippets to automate operations of clock-in/clock-out with KOT, KING OF TIME. \
 With configuring with Linux Cron, you can reduce your time for daily administration task.
 
+## Prerequisites
+Firstly, for enabling to login to KOT by script, you need to prepare credentials of KOT My Recorder URL. \
+Alos, since this snippet is integrated to your Google Calendar, you need to check your personal Google Calandar link, before running the script. \
+For obtaining your personal link, navigate to [Settings menu](https://calendar.google.com/calendar/u/0/r/settings) in Google Calendar UI, and scroll down to left tab `Settings for my calendars`. \
+In detailed menu, you can see the 
+
 ## Configure with Linux Cron
 
 ```shell
