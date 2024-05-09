@@ -3,7 +3,14 @@ Snippets to automate operations of clock-in/clock-out with KOT, KING OF TIME. \
 With configuring with Linux Cron, you can reduce your time for daily administration task.
 
 ## Configure with Linux Cron
-Example would be updated soon.
+
+```shell
+KOT_USERNAME='trme3c3382413'
+KOT_PASSWORD='******'
+GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
+0 10 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
+0 18 * * 1-5 KOT_OPS='clock-out' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
+```
 
 ## Run locally
 Note that if you need to run program from your laptop, please confirm that Python 3.x is installed onto your system. \
@@ -20,9 +27,12 @@ As initial release, only `Python 3.11.8 (virtualenv)` has been tested.
 ```
 
 ```shell
-# Add your credentials for KOT
+# Set your credentials for KOT
 % export KOT_USERNAME='xxxxxxx'
 % export KOT_PASSWORD='xxxxxxx'
+
+# Set your Google Calendar URL (Secret URL)
+% export GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
 
 # Run
 # Note that password is hidden in stdout and the following outputs are omitted as examples
@@ -31,6 +41,11 @@ As initial release, only `Python 3.11.8 (virtualenv)` has been tested.
 KOT_OPS: clock-out
 KOT_USERNAME: trme3c3382413
 KOT_PASSWORD: ******
+GOOGLE_USER_CALENDAR_URL: ******
+>>> Determine public holiday or not
+Today is not public holiday, continue to validation
+>>> Determine PTO or not
+Today is not PTO, finishing validation.
 
 >>> Waiting for 3 mintues to start, maximum wait time is 60 minutes.
 OK, starting to Selenium operation

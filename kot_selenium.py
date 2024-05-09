@@ -40,7 +40,7 @@ if KOT_OPS.lower() not in ['clock-in', 'clock-out']:
 print(f"KOT_OPS: {KOT_OPS}")
 print(f"KOT_USERNAME: {KOT_USERNAME}")
 print(f"KOT_PASSWORD: ******")
-print(f"GOOGLE_USER_CALENDAR_URL: ******\n")
+print(f"GOOGLE_USER_CALENDAR_URL: ******")
 
 # # weekdate validation can be implemented with cron
 # print('>>> Determine weekday or not')
@@ -62,7 +62,7 @@ except Exception as e:
 if datetime.date.today() in [h['DTSTART'].dt for h in holidays]:
     print('Today is public holiday, need not to run script.\n')
     sys.exit(0)
-print('Today is not public holiday, continue to validation\n')
+print('Today is not public holiday, continue to validation')
 
 print('>>> Determine PTO or not')
 try:
