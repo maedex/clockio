@@ -6,7 +6,9 @@ With configuring with Linux Cron, you can reduce your time for daily administrat
 Firstly, for enabling to login to KOT by script, you need to prepare credentials of KOT My Recorder URL. \
 Alos, since this snippet is integrated to your Google Calendar, you need to check your personal Google Calandar link, before running the script. \
 For obtaining your personal link, navigate to [Settings menu](https://calendar.google.com/calendar/u/0/r/settings) in Google Calendar UI, and scroll down to left tab `Settings for my calendars`. \
-In detailed menu, you can see the 
+In detailed menu, you can see the it.
+
+![Secret URL Menu](https://gist.github.com/assets/25563897/0d97bdf1-2d13-4e8a-a522-954392ea0667)
 
 ## Configure with Linux Cron
 
@@ -17,6 +19,9 @@ GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
 0 10 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 0 18 * * 1-5 KOT_OPS='clock-out' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 ```
+
+## Security Considerations
+
 
 ## Run locally
 Note that if you need to run program from your laptop, please confirm that Python 3.x is installed onto your system. \
