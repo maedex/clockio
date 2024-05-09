@@ -2,7 +2,6 @@ import os
 import sys
 import random
 from time import sleep
-from typing import Literal
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -39,6 +38,8 @@ print(f'>>> Waiting for {START_OFFSET_MIN} mintues to start, maximum wait time i
 sleep(START_OFFSET_MIN * 60)
 print('OK, starting to Selenium operation\n')
 
+
+# Selenium Operation
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
 
