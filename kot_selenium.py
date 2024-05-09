@@ -1,38 +1,78 @@
+import datetime
 import os
 import sys
 import random
 from time import sleep
 
+import requests
+from icalendar import Calendar
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 # constants
-KOT_URL = "https://s3.ta.kingoftime.jp/independent/recorder2/personal"
+KOT_URL = 'https://s3.ta.kingoftime.jp/independent/recorder2/personal'
 MAX_UI_WAIT_TIME_SEC = 10
-
-KOT_OPS = os.environ.get('KOT_OPS')
-KOT_USERNAME = os.environ.get('KOT_USERNAME')
-KOT_PASSWORD = os.environ.get('KOT_PASSWORD')
-
+GOOGLE_HOLIDAY_CALENDAR_URL = 'https://calendar.google.com/calendar/ical/avagotech.com_bg0up3r3juf2lun6hm8rgbgq54%40group.calendar.google.com/public/basic.ics'
 # randomize wait time
 START_OFFSET_MIN = random.randint(0, 60)
 
+# user inputs
+KOT_OPS = os.environ.get('KOT_OPS')
+KOT_USERNAME = os.environ.get('KOT_USERNAME')
+KOT_PASSWORD = os.environ.get('KOT_PASSWORD')
+GOOGLE_USER_CALENDER_URL = os.environ.get('GOOGLE_USER_CALENDER_URL')
 
+
+# Validations
 print('>>> Precheck for user input')
-if (KOT_OPS is None) or (KOT_USERNAME is None) or (KOT_PASSWORD is None):
-    print('Required environmental variable(s) not provided, please set: KOT_OPS, KOT_USERNAME, KOT_PASSWORD')
+if (KOT_OPS is None) or (KOT_USERNAME is None) or (KOT_PASSWORD is None) or (GOOGLE_USER_CALENDER_URL is None):
+    print('Required environmental variable(s) not provided, please set: KOT_OPS, KOT_USERNAME, KOT_PASSWORD, GOOGLE_USER_CALENDER_URL\n')
     sys.exit(1)
 
 if KOT_OPS.lower() not in ['clock-in', 'clock-out']:
-    print('provided operation could not be accepted, only `clock-in` or `clock-out` can be used for KOT_OPS.')
+    print('provided operation could not be accepted, only `clock-in` or `clock-out` can be used for KOT_OPS.\n')
     sys.exit(1)
 
 print(f"KOT_OPS: {KOT_OPS}")
 print(f"KOT_USERNAME: {KOT_USERNAME}")
-print(f"KOT_PASSWORD: ******\n")
+print(f"KOT_PASSWORD: ******")
+print(f"GOOGLE_USER_CALENDER_URL: ******\n")
+
+print('>>> Determine weekday or not')
+if (datetime.date.today().weekday() == 5) or (datetime.date.today().weekday() == 6):
+    print('Today is weekend, need not to run script.\n')
+    sys.exit(0)
+print('Today is not weekday, continue to validation\n')
+
+print('>>> Determine public holiday or not')
+try:
+    ctx = requests.get(GOOGLE_HOLIDAY_CALENDAR_URL).content
+    ics = Calendar.from_ical(ctx)
+    # Filter out Japan holiday
+    holidays = [ve for ve in ics.walk('VEVENT') if 'Japan' in ve['SUMMARY']]
+except Exception as e:
+    print('Failed to fetch public holiday\n')
+    sys.exit(1)
+
+if datetime.date.today() in [h['DTSTART'].dt for h in holidays]:
+    print('Today is public holiday, need not to run script.\n')
+    sys.exit(0)
+print('Today is not public holiday, continue to validation\n')
+
+print('>>> Determine PTO or not')
+try:
+    ctx = requests.get(GOOGLE_USER_CALENDER_URL).content
+    ics = Calendar.from_ical(ctx)
+    # Fetch only todays vEvent object
+    events = [ve for ve in ics.walk('VEVENT') if datetime.date.today() in [ve['DTSTART'].dt for ve in ics.walk('VEVENT')]]
+except Exception as e:
+    print('Failed to fetch events from user calendar URL.\n')
+    sys.exit(1)
+
 
 print(f'>>> Waiting for {START_OFFSET_MIN} mintues to start, maximum wait time is 60 minutes.')
 sleep(START_OFFSET_MIN * 60)
