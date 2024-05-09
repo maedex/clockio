@@ -24,13 +24,13 @@ START_OFFSET_MIN = random.randint(0, 60)
 KOT_OPS = os.environ.get('KOT_OPS')
 KOT_USERNAME = os.environ.get('KOT_USERNAME')
 KOT_PASSWORD = os.environ.get('KOT_PASSWORD')
-GOOGLE_USER_CALENDER_URL = os.environ.get('GOOGLE_USER_CALENDER_URL')
+GOOGLE_USER_CALENDAR_URL = os.environ.get('GOOGLE_USER_CALENDAR_URL')
 
 
 # Validations
 print('>>> Precheck for user input')
-if (KOT_OPS is None) or (KOT_USERNAME is None) or (KOT_PASSWORD is None) or (GOOGLE_USER_CALENDER_URL is None):
-    print('Required environmental variable(s) not provided, please set: KOT_OPS, KOT_USERNAME, KOT_PASSWORD, GOOGLE_USER_CALENDER_URL\n')
+if (KOT_OPS is None) or (KOT_USERNAME is None) or (KOT_PASSWORD is None) or (GOOGLE_USER_CALENDAR_URL is None):
+    print('Required environmental variable(s) not provided, please set: KOT_OPS, KOT_USERNAME, KOT_PASSWORD, GOOGLE_USER_CALENDAR_URL\n')
     sys.exit(1)
 
 if KOT_OPS.lower() not in ['clock-in', 'clock-out']:
@@ -40,13 +40,14 @@ if KOT_OPS.lower() not in ['clock-in', 'clock-out']:
 print(f"KOT_OPS: {KOT_OPS}")
 print(f"KOT_USERNAME: {KOT_USERNAME}")
 print(f"KOT_PASSWORD: ******")
-print(f"GOOGLE_USER_CALENDER_URL: ******\n")
+print(f"GOOGLE_USER_CALENDAR_URL: ******\n")
 
-print('>>> Determine weekday or not')
-if (datetime.date.today().weekday() == 5) or (datetime.date.today().weekday() == 6):
-    print('Today is weekend, need not to run script.\n')
-    sys.exit(0)
-print('Today is not weekday, continue to validation\n')
+# # weekdate validation can be implemented with cron
+# print('>>> Determine weekday or not')
+# if (datetime.date.today().weekday() == 5) or (datetime.date.today().weekday() == 6):
+#     print('Today is weekend, need not to run script.\n')
+#     sys.exit(0)
+# print('Today is not weekday, continue to validation\n')
 
 print('>>> Determine public holiday or not')
 try:
@@ -65,13 +66,18 @@ print('Today is not public holiday, continue to validation\n')
 
 print('>>> Determine PTO or not')
 try:
-    ctx = requests.get(GOOGLE_USER_CALENDER_URL).content
+    ctx = requests.get(GOOGLE_USER_CALENDAR_URL).content
     ics = Calendar.from_ical(ctx)
-    # Fetch only todays vEvent object
-    events = [ve for ve in ics.walk('VEVENT') if datetime.date.today() in [ve['DTSTART'].dt for ve in ics.walk('VEVENT')]]
+    # Fetch only todays vEvent object with strformatting datetime.date/datetime.datetime at the same time
+    events = [ve for ve in ics.walk('VEVENT') if ve['DTSTART'].dt.strftime('%Y/%m/%d') == datetime.date.today().strftime('%Y/%m/%d')]
 except Exception as e:
     print('Failed to fetch events from user calendar URL.\n')
     sys.exit(1)
+
+if 'PTO' in [e['SUMMARY'] for e in events]:
+    print('Today is PTO, need not to run script.\n')
+    sys.exit(1)
+print('Today is not PTO, finishing validation.\n')
 
 
 print(f'>>> Waiting for {START_OFFSET_MIN} mintues to start, maximum wait time is 60 minutes.')
