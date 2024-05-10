@@ -10,22 +10,31 @@ In detailed menu, you can see the it.
 
 ![Secret URL Menu](https://gist.github.com/assets/25563897/0d97bdf1-2d13-4e8a-a522-954392ea0667)
 
-## Configure with Linux Cron
+## Examples of Ubuntu Crontab configuration
+For running every weekday, the following crontab configurations might be used as examples. \
+For applying it, you can simply run `crontab -e` as a general user (non-root user).
 
 ```shell
 KOT_USERNAME='trme3c3382413'
 KOT_PASSWORD='******'
 GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
-0 10 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
+0 8 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 0 18 * * 1-5 KOT_OPS='clock-out' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 ```
 
-## Security Considerations
+For avoiding increasing disk utilization, the stdout of script is disabled in crontab by default. \
+In case you need to print out stdout of script for such as debugging, you can simply update your crontab commands like:
 
+```shell
+0 8 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py >> $(date "+\%Y/\%m/\%d_\%H:\%M:\%S")_kot.log
+```
+
+## Security Considerations
+To be updated
 
 ## Run locally
 Note that if you need to run program from your laptop, please confirm that Python 3.x is installed onto your system. \
-As initial release, only `Python 3.11.8 (virtualenv)` has been tested.
+As initial release, only `Python 3.11.8 (virtualenv)` and `Python 3.10.12 (Ubuntu packaged)` has been tested.
 
 ```shell
 # Install dependencies
