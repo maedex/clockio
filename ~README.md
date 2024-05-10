@@ -10,6 +10,14 @@ In detailed menu, you can see the it.
 
 ![Secret URL Menu](https://gist.github.com/assets/25563897/0d97bdf1-2d13-4e8a-a522-954392ea0667)
 
+Then please clone this Gist as general git repository onto your machine, where you would like to run script. \
+Since Gist repository would be named with randomly hashed string, please be aware that you need to explicitly name cloned repo as `kot_selenium`.
+
+```shell
+# After SSH to remote machine, or just run on your local machine
+% git clone https://gist.github.com/073279627e424bc555e7804f68cc32d1.git kot_selenium
+```
+
 ## Examples of Ubuntu Crontab configuration
 For running every weekday, the following crontab configurations might be used as examples. \
 For applying it, you can simply run `crontab -e` as a general user (non-root user).
