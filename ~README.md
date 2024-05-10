@@ -67,7 +67,7 @@ As initial release, only `Python 3.11.8 (virtualenv)` and `Python 3.10.12 (Ubunt
 % export GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
 
 # Run
-# Note that password is hidden in stdout and the following outputs are omitted as examples
+# Note that password is hidden in stdout and the following outputs are intendedly omitted as in stdout
 % python kot_selenium.py
 >>> Precheck for user input
 KOT_OPS: clock-out
