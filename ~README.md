@@ -26,8 +26,12 @@ For avoiding increasing disk utilization, the stdout of script is disabled in cr
 In case you need to print out stdout of script for such as debugging, you can simply update your crontab commands like:
 
 ```shell
+SHELL=/bin/bash
+# (...)
 0 8 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py >> $(date "+\%Y/\%m/\%d_\%H:\%M:\%S")_kot.log
 ```
+
+Note that please define running shell as `/bin/bash` in crontab, since Ubuntu will use `/usr/bin/dash` with cron by default, where we can not use shell redirection.
 
 ## Security Considerations
 To be updated
