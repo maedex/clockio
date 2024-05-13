@@ -82,7 +82,7 @@ print('Today is not PTO, finishing validation.\n')
 
 print(f'>>> Waiting for {START_OFFSET_MIN} mintues to start, maximum wait time is 60 minutes.')
 sleep(START_OFFSET_MIN * 60)
-print('OK, starting to Selenium operation\n')
+print('OK, moving to Selenium operation\n')
 
 
 # Selenium Operation
