@@ -87,6 +87,7 @@ print('OK, moving to Selenium operation\n')
 
 # Selenium Operation
 chrome_options = Options()
+chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--headless=new")
 
 print('>>> Instantiating Webdriver and its utilities...')
