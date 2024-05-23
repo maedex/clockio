@@ -25,7 +25,7 @@ KOT_OPS = os.environ.get('KOT_OPS')
 KOT_USERNAME = os.environ.get('KOT_USERNAME')
 KOT_PASSWORD = os.environ.get('KOT_PASSWORD')
 GOOGLE_USER_CALENDAR_URL = os.environ.get('GOOGLE_USER_CALENDAR_URL')
-
+GOOGLE_SPACE_WEBHOOK_URL = os.environ.get('GOOGLE_SPACE_WEBHOOK_URL')
 
 # Validations
 print('>>> Precheck for user input')
@@ -41,6 +41,7 @@ print(f"KOT_OPS: {KOT_OPS}")
 print(f"KOT_USERNAME: {KOT_USERNAME}")
 print(f"KOT_PASSWORD: ******")
 print(f"GOOGLE_USER_CALENDAR_URL: ******")
+print(f"GOOGLE_SPACE_WEBHOOK_URL: {GOOGLE_SPACE_WEBHOOK_URL}")
 
 # # weekdate validation can be implemented with cron
 # print('>>> Determine weekday or not')
@@ -124,13 +125,32 @@ try:
     print('>>> Registering the entries')
     if KOT_OPS.lower() == 'clock-in':
         element_clockin = driver.find_element(By.CLASS_NAME, 'record-clock-in').click()
+        text = '出勤'
     elif KOT_OPS.lower() == 'clock-out':
         element_clockout = driver.find_element(By.CLASS_NAME, 'record-clock-out').click()
+        text = '退勤'
 except Exception as e:
     print('Failed to click clock-in/clock-out button')
     sys.exit(1)
 
 sleep(5)
 driver.quit()
+
+# notification features are an optional
+if GOOGLE_SPACE_WEBHOOK_URL is not None:
+    try:
+        print('>>> Making notifications to Google Space')
+        # build body
+        username = GOOGLE_USER_CALENDAR_URL.split('/')[5].split('%')[0]
+        rheader = {'Content-Type': 'application/json'}
+        rbody = {
+            "text": f"[ {username} ] さんが{text}しました。\n実際の業務時間はこの限りではない点にご注意ください。"
+        }
+        resp = requests.post(url=GOOGLE_SPACE_WEBHOOK_URL, headers=rheader, verify=False, json=rbody)
+        print(resp)
+    except Exception as e:
+        print('Failed to post message to Google Space')
+        print(e)
+        sys.exit(1)
 
 print(f'Done, completed daily [ {KOT_OPS} ] operations.\n')

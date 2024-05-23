@@ -1,5 +1,5 @@
 # kot_selenium
-Snippets to automate operations of clock-in/clock-out with KOT, KING OF TIME. \
+Snippets to automate operations of clock-in/clock-out with KOT, [KING OF TIME](https://www.kingoftime.jp). \
 With configuring with Linux Cron, you can reduce your time for daily administration task.
 
 ## Prerequisites
@@ -16,7 +16,16 @@ Since Gist repository would be named with randomly hashed string, please be awar
 ```shell
 # After SSH to remote machine, or just run on your local machine
 % git clone https://gist.github.com/073279627e424bc555e7804f68cc32d1.git kot_selenium
+
+# Install dependencies
+% pip3 install -r requirements.txt
+# in case you need to install packages separately, the packages required are: requests,icalendar,selenium
 ```
+
+Finally you need to configure Webhook URL in Google Space for making notifications of script operations. \
+Please refer [the official documents of Google Workspace](https://developers.google.com/workspace/chat/quickstart/webhooks) for setting up Webhook URL, \
+and please note that this operations requires permission as Space Manager.
+
 
 ## Examples of Ubuntu Crontab configuration
 For running every weekday, the following crontab configurations might be used as examples. \
@@ -26,6 +35,7 @@ For applying it, you can simply run `crontab -e` as a general user (non-root use
 KOT_USERNAME='trme3c3382413'
 KOT_PASSWORD='******'
 GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
+GOOGLE_WEBHOOK_URL='https://chat.googleapis.com/v1/spaces/****/messages?key=*****&token=******'
 0 8 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 0 18 * * 1-5 KOT_OPS='clock-out' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 ```
@@ -49,22 +59,20 @@ Note that if you need to run program from your laptop, please confirm that Pytho
 As initial release, only `Python 3.11.8 (virtualenv)` and `Python 3.10.12 (Ubuntu packaged)` has been tested.
 
 ```shell
-# Install dependencies
-% pip install -r requirements.txt
-
 # When you start your work
 % export KOT_OPS='clock-in'
 # or, when you end your work
 % export KOT_OPS='clock-out'
-```
 
-```shell
 # Set your credentials for KOT
 % export KOT_USERNAME='xxxxxxx'
 % export KOT_PASSWORD='xxxxxxx'
 
 # Set your Google Calendar URL (Secret URL)
 % export GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
+
+# (optional) Set your Google Space URL
+% export GOOGLE_SPACE_WEBHOOK_URL='https://chat.googleapis.com/v1/spaces/****/messages?key=*****&token=******'
 
 # Run
 # Note that password is hidden in stdout and the following outputs are intendedly omitted as in stdout
@@ -74,6 +82,7 @@ KOT_OPS: clock-out
 KOT_USERNAME: trme3c3382413
 KOT_PASSWORD: ******
 GOOGLE_USER_CALENDAR_URL: ******
+GOOGLE_SPACE_WEBHOOK_URL: ******
 >>> Determine public holiday or not
 Today is not public holiday, continue to validation
 >>> Determine PTO or not
@@ -86,5 +95,6 @@ OK, starting to Selenium operation
 >>> Login and wait until page rendered
 >>> Fillout ID and Password for login
 >>> Registering the entries
-Done, completed daily [ clock-in ] operations.
+>>> Making notifications to Google Space
+Done, completed daily [ clock-out ] operations.
 ```
