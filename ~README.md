@@ -2,15 +2,7 @@
 Snippets to automate operations of clock-in/clock-out with KOT, [KING OF TIME](https://www.kingoftime.jp). \
 With configuring with Linux Cron, you can reduce your time for daily administration task.
 
-## Prerequisites
-Firstly, for enabling to login to KOT by script, you need to prepare credentials of KOT My Recorder URL. \
-Also, since this snippet will interact with your Google Calendar, you need to check your personal Google Calandar link, before running the script. \
-For obtaining your personal link, navigate to [Settings menu](https://calendar.google.com/calendar/u/0/r/settings) in Google Calendar UI, and scroll down to left tab `Settings for my calendars`. \
-In detailed menu in your personal calendar, you can see `Secret address in iCal format` at the bottom.
-
-![Secret URL Menu](https://gist.github.com/assets/25563897/0d97bdf1-2d13-4e8a-a522-954392ea0667)
-
-Then please clone this Gist as general git repository onto your machine, where you would like to run script. \
+Just cloning this Gist as general git repository onto your machine, where you would like to run script. \
 Since Gist repository would be named with randomly hashed string, please be aware that you need to explicitly name cloned repo as `kot_selenium`.
 
 ```shell
@@ -21,6 +13,21 @@ Since Gist repository would be named with randomly hashed string, please be awar
 % pip3 install -r requirements.txt
 # in case you need to install packages separately, the packages required are: requests,icalendar,selenium
 ```
+
+## Prerequisites
+- `KOT_USERNAME` and `KOT_PASSWORD`
+
+Firstly, for enabling to login to KOT by script, you need to prepare credentials to login KOT My Recorder URL. \
+Also, since this snippet will interact with your Google Calendar, you need to check your personal Google Calandar link, before running the script.
+
+- `GOOGLE_USER_CALENDAR_URL`
+
+For obtaining your personal link, navigate to [Settings menu](https://calendar.google.com/calendar/u/0/r/settings) in Google Calendar UI, and scroll down to left tab `Settings for my calendars`. \
+In detailed menu in your personal calendar, you can see `Secret address in iCal format` at the bottom.
+
+![Secret URL Menu](https://gist.github.com/assets/25563897/0d97bdf1-2d13-4e8a-a522-954392ea0667)
+
+- `GOOGLE_SPACE_WEBHOOK_URL` (optional)
 
 Finally you need to configure Webhook URL in Google Space for making notifications of script operations. \
 Please refer [the official documents of Google Workspace](https://developers.google.com/workspace/chat/quickstart/webhooks) for setting up Webhook URL, \
@@ -35,7 +42,7 @@ For applying it, you can simply run `crontab -e` as a general user (non-root use
 KOT_USERNAME='trme3c3382413'
 KOT_PASSWORD='******'
 GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
-GOOGLE_WEBHOOK_URL='https://chat.googleapis.com/v1/spaces/****/messages?key=*****&token=******'
+GOOGLE_SPACE_WEBHOOK_URL='https://chat.googleapis.com/v1/spaces/****/messages?key=*****&token=******'
 0 8 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 0 18 * * 1-5 KOT_OPS='clock-out' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 ```
