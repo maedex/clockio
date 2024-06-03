@@ -1,0 +1,12 @@
+# Generic
+.vscode/*
+.DS_Store
+
+# Runtimes
+*.venv/*
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+*.log
