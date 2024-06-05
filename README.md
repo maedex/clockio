@@ -27,6 +27,10 @@ In detailed menu in your personal calendar, you can see `Secret address in iCal 
 
 ![Secret URL Menu](https://gist.github.com/assets/25563897/0d97bdf1-2d13-4e8a-a522-954392ea0667)
 
+- 'START_OFFSET_MIN' (optional)
+
+Configurable offset timer (in minutes) the script will wait until it clocks-in/out to KOT. Value should be an integer [0,60], otherwise a random value within the same range will be used.
+
 - `GOOGLE_SPACE_WEBHOOK_URL` (optional)
 
 Finally you need to configure Webhook URL in Google Space for making notifications of script operations. \
@@ -42,6 +46,7 @@ For applying it, you can simply run `crontab -e` as a general user (non-root use
 KOT_USERNAME='trme3c3382413'
 KOT_PASSWORD='******'
 GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
+START_OFFSET_MIN='30'
 GOOGLE_SPACE_WEBHOOK_URL='https://chat.googleapis.com/v1/spaces/****/messages?key=*****&token=******'
 0 8 * * 1-5 KOT_OPS='clock-in' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
 0 18 * * 1-5 KOT_OPS='clock-out' python3 /home/hwakabayashi/kot_selenium/kot_selenium.py
@@ -77,6 +82,9 @@ As initial release, only `Python 3.11.8 (virtualenv)` and `Python 3.10.12 (Ubunt
 
 # Set your Google Calendar URL (Secret URL)
 % export GOOGLE_USER_CALENDAR_URL='https://calendar.google.com/calendar/ical/********'
+
+# (optional) Set the wait timer
+export START_OFFSET_MIN='30'
 
 # (optional) Set your Google Space URL
 % export GOOGLE_SPACE_WEBHOOK_URL='https://chat.googleapis.com/v1/spaces/****/messages?key=*****&token=******'

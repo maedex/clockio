@@ -17,8 +17,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 KOT_URL = 'https://s3.ta.kingoftime.jp/independent/recorder2/personal'
 MAX_UI_WAIT_TIME_SEC = 10
 GOOGLE_HOLIDAY_CALENDAR_URL = 'https://calendar.google.com/calendar/ical/avagotech.com_bg0up3r3juf2lun6hm8rgbgq54%40group.calendar.google.com/public/basic.ics'
-# randomize wait time
-START_OFFSET_MIN = random.randint(0, 60)
 
 # user inputs
 KOT_OPS = os.environ.get('KOT_OPS')
@@ -26,6 +24,8 @@ KOT_USERNAME = os.environ.get('KOT_USERNAME')
 KOT_PASSWORD = os.environ.get('KOT_PASSWORD')
 GOOGLE_USER_CALENDAR_URL = os.environ.get('GOOGLE_USER_CALENDAR_URL')
 GOOGLE_SPACE_WEBHOOK_URL = os.environ.get('GOOGLE_SPACE_WEBHOOK_URL')
+# randomize wait time
+START_OFFSET_MIN = os.environ.get('START_OFFSET_MIN') if os.environ.get('START_OFFSET_MIN') and int(os.environ.get('START_OFFSET_MIN')) <= 60 and int(os.environ.get('START_OFFSET_MIN')) >= 0 else random.randint(0, 60)
 
 # Validations
 print('>>> Precheck for user input')
