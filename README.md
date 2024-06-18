@@ -89,9 +89,9 @@ As initial release, only `Python 3.11.8 (virtualenv)` and `Python 3.10.12 (Ubunt
 # (optional) Set your Google Space URL
 % export GOOGLE_SPACE_WEBHOOK_URL='https://chat.googleapis.com/v1/spaces/****/messages?key=*****&token=******'
 
-# Run
+# Invoke script
 # Note that password is hidden in stdout and the following outputs are intendedly omitted as in stdout
-% python kot_selenium.py
+% python3 kot_selenium.py
 >>> Precheck for user input
 KOT_OPS: clock-out
 KOT_USERNAME: trme3c3382413
@@ -103,13 +103,13 @@ Today is not public holiday, continue to validation
 >>> Determine PTO or not
 Today is not PTO, finishing validation.
 
->>> Waiting for 3 mintues to start, maximum wait time is 60 minutes.
-OK, starting to Selenium operation
+>>> Waiting for 1 mintues to start, maximum wait time is 60 minutes.
+OK, moving to Selenium operation
 
 >>> Instantiating Webdriver and its utilities...
 >>> Login and wait until page rendered
 >>> Fillout ID and Password for login
 >>> Registering the entries
->>> Making notifications to Google Space
+# ...
 Done, completed daily [ clock-out ] operations.
 ```
