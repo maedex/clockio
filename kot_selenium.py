@@ -25,7 +25,7 @@ KOT_PASSWORD = os.environ.get('KOT_PASSWORD')
 GOOGLE_USER_CALENDAR_URL = os.environ.get('GOOGLE_USER_CALENDAR_URL')
 GOOGLE_SPACE_WEBHOOK_URL = os.environ.get('GOOGLE_SPACE_WEBHOOK_URL')
 # randomize wait time
-START_OFFSET_MIN = os.environ.get('START_OFFSET_MIN') if os.environ.get('START_OFFSET_MIN') and int(os.environ.get('START_OFFSET_MIN')) <= 60 and int(os.environ.get('START_OFFSET_MIN')) >= 0 else random.randint(0, 60)
+START_OFFSET_MIN = int(os.environ.get('START_OFFSET_MIN')) if os.environ.get('START_OFFSET_MIN') and int(os.environ.get('START_OFFSET_MIN')) <= 60 and int(os.environ.get('START_OFFSET_MIN')) >= 0 else random.randint(0, 60)
 
 # Validations
 print('>>> Precheck for user input')
@@ -90,6 +90,7 @@ print('OK, moving to Selenium operation\n')
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--headless=new")
+chrome_options.add_argument('--remote-debugging-pipe')
 
 print('>>> Instantiating Webdriver and its utilities...')
 driver = webdriver.Chrome(options=chrome_options)
