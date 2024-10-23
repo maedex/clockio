@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/maedex/clockio/compare/v0.1.0...v0.1.1) (2024-10-23)
+
+
+### Documentation
+
+* fixed minor stdout changes. ([a69c019](https://github.com/maedex/clockio/commit/a69c0194c9aba9bde395de4c7bd580aaf63af83d))
+* renamed repository name and fixed .png links. ([6fa3491](https://github.com/maedex/clockio/commit/6fa3491cea03ac16507dbd6aae1413a1d66aba8f))
+
 ## [0.1.0](https://github.com/hwakabh/clockio/compare/v0.0.1...v0.1.0) (2024-06-03)
 
 
